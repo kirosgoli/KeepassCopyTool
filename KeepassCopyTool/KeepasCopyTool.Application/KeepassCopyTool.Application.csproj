@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BackupSettingsCommand.cs" />
+    <Compile Include="Commands\IBackupSettingsCommand.cs" />
+    <Compile Include="DTOs\BackupSettingsDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\BackupSettingsQuery.cs" />
+    <Compile Include="Queries\IBackupSettingsQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KeepasCopyTool.Core\KeepassCopyTool.Core.csproj">

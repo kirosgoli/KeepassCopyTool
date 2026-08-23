@@ -11,6 +11,7 @@ namespace KeepassCopyTool.Application.DTOs
         public string SourceFilePath { get; set; }
         public string DestinationFolder { get; set; }
         public int BackupInterval { get; set; }
-        public string LastUpdateDate { get; set; }
+        public string LastSettingsUpdateDate { get; set; }
+        public string LastRunDate { get; set; }
     }
 }

@@ -8,8 +8,10 @@ namespace KeepassCopyTool.Core.Interfaces
 {
     public interface IRegRepository
     {
-        string GetLastUpdateDate();
-        void SetLastUpdateDate(DateTime dateTime);
+        string GetLastSettingsUpdateDate();
+        void SetLastSettingsUpdateDate(DateTime dateTime);
+        string GetLastRunDate();
+        void SetLastRunDate(DateTime dateTime);
         int GetBackupInterval();
         void SetBackupInterval(int backupInterval);
         string GetDestinationFolder();

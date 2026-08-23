@@ -3,7 +3,7 @@ Option Explicit On
 Imports KeepassCopyTool.Core.Interfaces
 
 Namespace Registry
-    Class RegRepository
+    Public Class RegRepository
         Implements IRegRepository
 
         Private Const RegistrySubKeyPath As String = "Software\KeepassCopyTool"
@@ -43,13 +43,23 @@ Namespace Registry
         End Sub
 #End Region
 
-#Region "LastUpdateDate"
-        Public Function GetLastUpdateDate() As String Implements IRegRepository.GetLastUpdateDate
-            Return GetRegValue("LastUpdateDate")
+#Region "LastSettingsUpdateDate"
+        Public Function GetLastSettingsUpdateDate() As String Implements IRegRepository.GetLastSettingsUpdateDate
+            Return GetRegValue("LastSettingsUpdateDate")
         End Function
 
-        Public Sub SetLastUpdateDate(dateTime As Date) Implements IRegRepository.SetLastUpdateDate
-            SetRegValue("LastUpdateDate", dateTime.ToString("s"))
+        Public Sub SetLastSettingsUpdateDate(dateTime As Date) Implements IRegRepository.SetLastSettingsUpdateDate
+            SetRegValue("LastSettingsUpdateDate", dateTime.ToString("s"))
+        End Sub
+#End Region
+
+#Region "LastRunDate"
+        Public Function GetLastRunDate() As String Implements IRegRepository.GetLastRunDate
+            Return GetRegValue("LastRunDate")
+        End Function
+
+        Public Sub SetLastRunDate(dateTime As Date) Implements IRegRepository.SetLastRunDate
+            SetRegValue("LastRunDate", dateTime.ToString("s"))
         End Sub
 #End Region
 

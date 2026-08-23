@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KeepassCopyTool.Application.Queries
 {
-    internal class BackupSettingsQuery : IBackupSettingsQuery
+    public class BackupSettingsQuery : IBackupSettingsQuery
     {
         private IRegRepository regRepository;
 
@@ -23,7 +23,8 @@ namespace KeepassCopyTool.Application.Queries
             {
                 BackupInterval = this.regRepository.GetBackupInterval(),
                 DestinationFolder = this.regRepository.GetDestinationFolder(),
-                LastUpdateDate = this.regRepository.GetLastUpdateDate(),
+                LastSettingsUpdateDate = this.regRepository.GetLastSettingsUpdateDate(),
+                LastRunDate = this.regRepository.GetLastRunDate(),
                 SourceFilePath = this.regRepository.GetSourceFilePath(),
             };
             return result;
