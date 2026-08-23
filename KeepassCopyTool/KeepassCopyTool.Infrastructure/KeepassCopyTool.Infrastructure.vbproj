@@ -95,6 +95,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ContainerBuilderExtensions.vb" />
     <Compile Include="Extensions\Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

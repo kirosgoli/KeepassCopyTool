@@ -3,7 +3,7 @@ Option Explicit On
 Imports KeepassCopyTool.Core.Interfaces
 
 Namespace Registry
-    Public Class RegRepository
+    Friend Class RegRepository
         Implements IRegRepository
 
         Private Const RegistrySubKeyPath As String = "Software\KeepassCopyTool"

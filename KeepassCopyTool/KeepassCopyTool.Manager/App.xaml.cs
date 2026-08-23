@@ -13,16 +13,8 @@ namespace KeepassCopyTool.Manager
 
             var builder = new Autofac.ContainerBuilder();
 
-            builder.RegisterType<KeepassCopyTool.Infrastructure.Registry.RegRepository>()
-                   .As<KeepassCopyTool.Core.Interfaces.IRegRepository>()
-                   .SingleInstance();
-
-            builder.RegisterType<KeepassCopyTool.Application.Queries.BackupSettingsQuery>()
-                   .As<KeepassCopyTool.Application.Queries.IBackupSettingsQuery>()
-                   .SingleInstance();
-
-            builder.RegisterType<KeepassCopyTool.Application.Commands.BackupSettingsCommand>()
-                .As<KeepassCopyTool.Application.Commands.IBackupSettingsCommand>();
+            KeepassCopyTool.Application.Extensions.ContainerBuilderExtensions.RegisterApplicationServices(builder);
+            KeepassCopyTool.Infrastructure.InfrastructureContainerBuilderExtensions.RegisterInfrastructureServices(builder);
 
             builder.RegisterType<MainWindow>();
 

@@ -62,15 +62,25 @@ namespace KeepassCopyTool.Manager
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            int backupInterval;
+            if (!int.TryParse(BackupIntervalTextBox.Text, out backupInterval))
+            {
+                MessageBox.Show("Interwał kopii musi być liczbą całkowitą.");
+                return;
+            }
+
             BackupSettingsDTO currentSettings = new BackupSettingsDTO()
             {
                 DestinationFolder = DestinationFolderTextBox.Text,
                 SourceFilePath = SourceFilePathTextBox.Text,
-                BackupInterval = int.Parse(BackupIntervalTextBox.Text)
+                BackupInterval = backupInterval
             };
 
             if (_backupSettingsCommand.Execute(currentSettings))
+            {
+                LoadBackupSettings();
                 MessageBox.Show("Udany zapis");
+            }
             else
                 MessageBox.Show("Niespodziewany błąd");
         }

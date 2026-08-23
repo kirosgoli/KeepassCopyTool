@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KeepassCopyTool.Application.Queries
 {
-    public class BackupSettingsQuery : IBackupSettingsQuery
+    internal class BackupSettingsQuery : IBackupSettingsQuery
     {
         private IRegRepository regRepository;
 
