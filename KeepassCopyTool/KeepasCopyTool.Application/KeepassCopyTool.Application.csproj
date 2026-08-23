@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=7.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.7.1.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BackupSettingsCommand.cs" />
+    <Compile Include="Commands\IBackupSettingsCommand.cs" />
+    <Compile Include="DTOs\BackupSettingsDTO.cs" />
+    <Compile Include="Extensions\ContainerBuilderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\BackupSettingsQuery.cs" />
+    <Compile Include="Queries\IBackupSettingsQuery.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KeepasCopyTool.Core\KeepassCopyTool.Core.csproj">
