@@ -1,6 +1,7 @@
 using Autofac;
 using KeepassCopyTool.Application.Commands;
 using KeepassCopyTool.Application.Queries;
+using KeepassCopyTool.Application.Validators;
 
 namespace KeepassCopyTool.Application.Extensions
 {
@@ -14,6 +15,9 @@ namespace KeepassCopyTool.Application.Extensions
 
             builder.RegisterType<BackupSettingsCommand>()
                    .As<IBackupSettingsCommand>();
+
+            builder.RegisterType<BackupSettingsValidator>()
+                .As<IBackupSettingsValidator>();
         }
     }
 }

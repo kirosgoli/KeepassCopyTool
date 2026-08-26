@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using KeepassCopyTool.Application.DTOs;
+using KeepassCopyTool.Manager.Models;
 using Microsoft.Win32;
 using Forms = System.Windows.Forms;
 
@@ -10,13 +11,18 @@ namespace KeepassCopyTool.Manager
     {
         private readonly KeepassCopyTool.Application.Queries.IBackupSettingsQuery _backupSettingsQuery;
         private readonly KeepassCopyTool.Application.Commands.IBackupSettingsCommand _backupSettingsCommand;
+        private readonly KeepassCopyTool.Application.Validators.IBackupSettingsValidator _backupSettingsValidator;
 
         public MainWindow(KeepassCopyTool.Application.Queries.IBackupSettingsQuery backupSettingsQuery,
-            KeepassCopyTool.Application.Commands.IBackupSettingsCommand backupSettingsCommand)
+            KeepassCopyTool.Application.Commands.IBackupSettingsCommand backupSettingsCommand,
+            Application.Validators.IBackupSettingsValidator backupSettingsValidator)
         {
             _backupSettingsQuery = backupSettingsQuery;
             _backupSettingsCommand = backupSettingsCommand;
+            _backupSettingsValidator = backupSettingsValidator;
             InitializeComponent();
+
+            BackupIntervalHoursComboBox.ItemsSource = BackupIntervalOption.Factory.Defaults;
 
             LoadBackupSettings();
         }
@@ -27,7 +33,7 @@ namespace KeepassCopyTool.Manager
 
             SourceFilePathTextBox.Text = settings.SourceFilePath;
             DestinationFolderTextBox.Text = settings.DestinationFolder;
-            BackupIntervalTextBox.Text = settings.BackupInterval.ToString();
+            BackupIntervalHoursComboBox.SelectedValue = settings.BackupIntervalHours;
             LastSettingsUpdateDateTextBox.Text = settings.LastSettingsUpdateDate;
             LastRunDateTextBox.Text = settings.LastRunDate;
         }
@@ -62,19 +68,26 @@ namespace KeepassCopyTool.Manager
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            int backupInterval;
-            if (!int.TryParse(BackupIntervalTextBox.Text, out backupInterval))
-            {
-                MessageBox.Show("Interwał kopii musi być liczbą całkowitą.");
-                return;
-            }
+            int backupIntervalHours = 0;
+            if (BackupIntervalHoursComboBox.SelectedValue == null)
+                backupIntervalHours = 0;
+            else
+                int.TryParse(BackupIntervalHoursComboBox.SelectedValue.ToString(), out backupIntervalHours);
 
             BackupSettingsDTO currentSettings = new BackupSettingsDTO()
             {
                 DestinationFolder = DestinationFolderTextBox.Text,
                 SourceFilePath = SourceFilePathTextBox.Text,
-                BackupInterval = backupInterval
+                BackupIntervalHours = backupIntervalHours
             };
+
+            var validationResult = _backupSettingsValidator.Validate(currentSettings);
+            if (validationResult != null && !validationResult.IsValid())
+            {
+                MessageBox.Show(validationResult.Errors[0]);
+                return;
+            }
+
 
             if (_backupSettingsCommand.Execute(currentSettings))
             {

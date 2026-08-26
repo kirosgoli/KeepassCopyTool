@@ -10,7 +10,7 @@ namespace KeepassCopyTool.Application.DTOs
     {
         public string SourceFilePath { get; set; }
         public string DestinationFolder { get; set; }
-        public int BackupInterval { get; set; }
+        public int BackupIntervalHours { get; set; }
         public string LastSettingsUpdateDate { get; set; }
         public string LastRunDate { get; set; }
     }
