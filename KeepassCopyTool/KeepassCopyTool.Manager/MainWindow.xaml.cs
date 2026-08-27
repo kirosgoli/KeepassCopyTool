@@ -12,6 +12,7 @@ namespace KeepassCopyTool.Manager
         private readonly KeepassCopyTool.Application.Queries.IBackupSettingsQuery _backupSettingsQuery;
         private readonly KeepassCopyTool.Application.Commands.IBackupSettingsCommand _backupSettingsCommand;
         private readonly KeepassCopyTool.Application.Validators.IBackupSettingsValidator _backupSettingsValidator;
+        private readonly System.Collections.Generic.List<BackupIntervalOption> _backupIntervalOptions;
 
         public MainWindow(KeepassCopyTool.Application.Queries.IBackupSettingsQuery backupSettingsQuery,
             KeepassCopyTool.Application.Commands.IBackupSettingsCommand backupSettingsCommand,
@@ -22,7 +23,8 @@ namespace KeepassCopyTool.Manager
             _backupSettingsValidator = backupSettingsValidator;
             InitializeComponent();
 
-            BackupIntervalHoursComboBox.ItemsSource = BackupIntervalOption.Factory.Defaults;
+            _backupIntervalOptions = BackupIntervalOption.Factory.Defaults;
+            BackupIntervalHoursComboBox.ItemsSource = _backupIntervalOptions;
 
             LoadBackupSettings();
         }
@@ -33,9 +35,29 @@ namespace KeepassCopyTool.Manager
 
             SourceFilePathTextBox.Text = settings.SourceFilePath;
             DestinationFolderTextBox.Text = settings.DestinationFolder;
-            BackupIntervalHoursComboBox.SelectedValue = settings.BackupIntervalHours;
+            BackupIntervalOption option = _backupIntervalOptions.FindOptionByHours(settings.BackupIntervalHours);
+            if (option != null)
+            {
+                BackupIntervalHoursComboBox.SelectedItem = option;
+                CustomBackupIntervalHoursTextBox.Text = string.Empty;
+            }
+            else
+            {
+                BackupIntervalHoursComboBox.SelectedItem = _backupIntervalOptions.GetCustomOption();
+                CustomBackupIntervalHoursTextBox.Text = settings.BackupIntervalHours > 0
+                    ? settings.BackupIntervalHours.ToString()
+                    : string.Empty;
+            }
             LastSettingsUpdateDateTextBox.Text = settings.LastSettingsUpdateDate;
             LastRunDateTextBox.Text = settings.LastRunDate;
+        }
+
+        private void BackupIntervalHoursComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            BackupIntervalOption selectedOption = BackupIntervalHoursComboBox.SelectedItem as BackupIntervalOption;
+            CustomBackupIntervalPanel.Visibility = selectedOption != null && selectedOption.IsCustom
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
         private void BrowseSourceFile_Click(object sender, RoutedEventArgs e)
@@ -68,11 +90,24 @@ namespace KeepassCopyTool.Manager
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            BackupIntervalOption selectedOption = BackupIntervalHoursComboBox.SelectedItem as BackupIntervalOption;
             int backupIntervalHours = 0;
-            if (BackupIntervalHoursComboBox.SelectedValue == null)
-                backupIntervalHours = 0;
-            else
-                int.TryParse(BackupIntervalHoursComboBox.SelectedValue.ToString(), out backupIntervalHours);
+
+            if (selectedOption != null)
+            {
+                if (selectedOption.IsCustom)
+                {
+                    if (!int.TryParse(CustomBackupIntervalHoursTextBox.Text, out backupIntervalHours))
+                    {
+                        MessageBox.Show("Podaj liczbę godzin dla niestandardowego interwału.");
+                        return;
+                    }
+                }
+                else
+                {
+                    backupIntervalHours = selectedOption.Hours;
+                }
+            }
 
             BackupSettingsDTO currentSettings = new BackupSettingsDTO()
             {
