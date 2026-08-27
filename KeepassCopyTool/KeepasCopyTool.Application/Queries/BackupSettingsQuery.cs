@@ -21,7 +21,7 @@ namespace KeepassCopyTool.Application.Queries
         {
             BackupSettingsDTO result = new BackupSettingsDTO()
             {
-                BackupInterval = this.regRepository.GetBackupInterval(),
+                BackupIntervalHours = this.regRepository.GetBackupIntervalHours(),
                 DestinationFolder = this.regRepository.GetDestinationFolder(),
                 LastSettingsUpdateDate = this.regRepository.GetLastSettingsUpdateDate(),
                 LastRunDate = this.regRepository.GetLastRunDate(),

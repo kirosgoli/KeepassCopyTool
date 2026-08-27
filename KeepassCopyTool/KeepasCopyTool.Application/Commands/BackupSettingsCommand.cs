@@ -33,12 +33,12 @@ namespace KeepassCopyTool.Application.Commands
                 {
                     SourceFilePath = _regRepository.GetSourceFilePath(),
                     DestinationFolder = _regRepository.GetDestinationFolder(),
-                    BackupInterval = _regRepository.GetBackupInterval()
+                    BackupIntervalHours = _regRepository.GetBackupIntervalHours()
                 };
                 previousLastSettingsUpdateDate = _regRepository.GetLastSettingsUpdateDate();
 
                 _regRepository.SetSourceFilePath(backupSettings.SourceFilePath);
-                _regRepository.SetBackupInterval(backupSettings.BackupInterval);
+                _regRepository.SetBackupIntervalHours(backupSettings.BackupIntervalHours);
                 _regRepository.SetDestinationFolder(backupSettings.DestinationFolder);
                 _regRepository.SetLastSettingsUpdateDate(DateTime.Now);
 
@@ -61,7 +61,7 @@ namespace KeepassCopyTool.Application.Commands
             try
             {
                 _regRepository.SetSourceFilePath(previousSettings.SourceFilePath);
-                _regRepository.SetBackupInterval(previousSettings.BackupInterval);
+                _regRepository.SetBackupIntervalHours(previousSettings.BackupIntervalHours);
                 _regRepository.SetDestinationFolder(previousSettings.DestinationFolder);
 
                 DateTime previousDate;

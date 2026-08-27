@@ -12,8 +12,8 @@ namespace KeepassCopyTool.Core.Interfaces
         void SetLastSettingsUpdateDate(DateTime dateTime);
         string GetLastRunDate();
         void SetLastRunDate(DateTime dateTime);
-        int GetBackupInterval();
-        void SetBackupInterval(int backupInterval);
+        int GetBackupIntervalHours();
+        void SetBackupIntervalHours(int backupIntervalHours);
         string GetDestinationFolder();
         void SetDestinationFolder(string destinationFolder);
         string GetSourceFilePath();

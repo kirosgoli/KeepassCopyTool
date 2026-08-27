@@ -63,15 +63,15 @@ Namespace Registry
         End Sub
 #End Region
 
-#Region "BackupInterval"
-        Public Function GetBackupInterval() As Integer Implements IRegRepository.GetBackupInterval
-            Dim backupInterval As Integer
-            Integer.TryParse(GetRegValue("BackupInterval"), backupInterval)
-            Return backupInterval
+#Region "BackupIntervalHours"
+        Public Function GetBackupIntervalHours() As Integer Implements IRegRepository.GetBackupIntervalHours
+            Dim backupIntervalHours As Integer
+            Integer.TryParse(GetRegValue("BackupIntervalHours"), backupIntervalHours)
+            Return backupIntervalHours
         End Function
 
-        Public Sub SetBackupInterval(backupInterval As Integer) Implements IRegRepository.SetBackupInterval
-            SetRegValue("BackupInterval", backupInterval.ToString())
+        Public Sub SetBackupIntervalHours(backupIntervalHours As Integer) Implements IRegRepository.SetBackupIntervalHours
+            SetRegValue("BackupIntervalHours", backupIntervalHours.ToString())
         End Sub
 #End Region
 
